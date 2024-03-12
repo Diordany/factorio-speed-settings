@@ -1,0 +1,9 @@
+{
+  "name": "speed-settings",
+  "version": "1.0.0",
+  "title": "Speed Settings",
+  "author": "Diordany van Hemert",
+  "homepage": "https://github.com/Diordany/factorio-speed-settings",
+  "description": "Adds the ability to set the game speed in the mod settings.",
+  "factorio_version": "1.1"
+}
