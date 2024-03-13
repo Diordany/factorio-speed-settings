@@ -1,5 +1,7 @@
 # Speed Settings
 
+[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
+
 Adds the ability to configure the game speed, along with the player's running, mining and crafting speed in the mod settings.
 
 # Installation
