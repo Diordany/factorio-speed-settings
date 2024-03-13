@@ -1,0 +1,12 @@
+---------------------------------------------------------------------------------------------------
+Version: 1.1.0
+Date: 13. 03. 2024
+  Features:
+    - You can now change the player running speed
+    - You can now change the player mining speed
+    - You can now change the player crafting speed
+---------------------------------------------------------------------------------------------------
+Version: 1.0.0
+Date: 12. 03. 2024
+  Major Features:
+    - Initial release.

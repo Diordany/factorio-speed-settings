@@ -1,6 +1,6 @@
 # Speed Settings
 
-Adds the ability to set the game speed in the mod settings.
+Adds the ability to configure the game speed, along with the player's running, mining and crafting speed in the mod settings.
 
 # Installation
 
@@ -16,7 +16,7 @@ You can install this mod through the built-in modloader of Factorio under the na
 
 ```
 cd <path to factorio mods>
-git clone https://github.com/Diordany/factorio-speed-settings.git speed-settings_1.0.0
+git clone https://github.com/Diordany/factorio-speed-settings.git speed-settings_1.1.0
 ```
 
 ## Installation from ZIP
@@ -25,6 +25,6 @@ Just save the .zip file to the mod directory of Factorio.
 
 # Usage
 
-Open the mod settings and you'll be able to set the speed factor.
+Open the mod settings and you'll be able to change the speed settings.
 
 ![Settings](doc/img/settings.png)
