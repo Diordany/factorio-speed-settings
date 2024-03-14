@@ -25,7 +25,7 @@ git clone https://github.com/Diordany/factorio-speed-settings.git speed-settings
 
 ## Installation from ZIP
 
-Just save the .zip file to the mod directory of Factorio as `factorio-speed-settings_1.1.1.zip` (or leave the name as is if downloading from the releases page).
+Just save the .zip file to the mod directory of Factorio as `speed-settings_1.1.1.zip` (or leave the name as is if downloading from the releases page).
 
 # Usage
 
