@@ -18,7 +18,7 @@ You can install this mod through the built-in modloader of Factorio under the na
 
 ```
 cd <path to factorio mods>
-git clone https://github.com/Diordany/factorio-speed-settings.git speed-settings_1.1.0
+git clone https://github.com/Diordany/factorio-speed-settings.git speed-settings_1.1.1
 ```
 
 ## Installation from ZIP
