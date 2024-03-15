@@ -1,6 +1,6 @@
 # Speed Settings
 
-<img src="thumbnail.png" alt="thumbnail" style="border: 2px dashed;" />
+![thumbnail](thumbnail.png)
 
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 
