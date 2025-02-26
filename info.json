@@ -4,6 +4,6 @@
   "title": "Speed Settings",
   "author": "Diordany van Hemert",
   "homepage": "https://github.com/Diordany/factorio-speed-settings",
-  "description": "Adds the ability to configure the game speed, along with the player's running, mining and crafting speed in the mod settings.",
+  "description": "Adds the ability to configure the game speed, along with the player's running, mining and crafting speed in the mod settings.\n\nWARNING: keep in mind that a higher game speed will be more demanding for your system!",
   "factorio_version": "2.0"
 }

@@ -31,4 +31,6 @@ Just save the .zip file to the mod directory of Factorio as `speed-settings_1.1.
 
 Open the mod settings and you'll be able to change the speed settings.
 
+**WARNING:** keep in mind that a higher game speed will be more demanding for your system!
+
 ![Settings](doc/img/settings.png)
