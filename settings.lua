@@ -1,6 +1,13 @@
 data:extend({
   {
     type = "double-setting",
+    name = "speed-settings-force-worker-robot",
+    setting_type = "runtime-global",
+    default_value = 0.0,
+    minimum_value = -1.0
+  },
+  {
+    type = "double-setting",
     name = "speed-settings-game",
     setting_type = "runtime-global",
     default_value = 1.0,
