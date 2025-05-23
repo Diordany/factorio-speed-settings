@@ -7,6 +7,7 @@ function update_player(p_player)
 end
 
 function update_player_force()
+  game.forces["player"].laboratory_speed_modifier = settings.global["speed-settings-force-lab"].value
   game.forces["player"].worker_robots_speed_modifier = settings.global["speed-settings-force-worker-robot"].value
 end
 
