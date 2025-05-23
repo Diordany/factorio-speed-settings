@@ -4,7 +4,13 @@
 
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 
-Adds the ability to configure the game speed, along with the player's running, mining and crafting speed in the mod settings.
+Adds the ability to configure the following speeds in the mod settings:
+- Game speed
+- Player running speed
+- Player mining speed
+- player crafting speed
+- worker robot speed
+- research lab speed.
 
 # Installation
 
@@ -20,12 +26,12 @@ You can install this mod through the built-in modloader of Factorio under the na
 
 ```
 cd <path to factorio mods>
-git clone https://github.com/Diordany/factorio-speed-settings.git speed-settings_1.1.3
+git clone https://github.com/Diordany/factorio-speed-settings.git speed-settings_1.2.0
 ```
 
 ## Installation from ZIP
 
-Just save the .zip file to the mod directory of Factorio as `speed-settings_1.1.3.zip` (or leave the name as is if downloading from the releases page).
+Just save the .zip file to the mod directory of Factorio as `speed-settings_1.2.0.zip` (or leave the name as is if downloading from the releases page).
 
 # Usage
 
