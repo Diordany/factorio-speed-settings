@@ -6,6 +6,9 @@ function update_player(p_player)
   p_player.character_running_speed_modifier = settings.global["speed-settings-player-running"].value
 end
 
+function update_player_force()
+end
+
 function update_speed_settings()
   game.speed = settings.global["speed-settings-game"].value
 
@@ -15,6 +18,8 @@ function update_speed_settings()
       update_player(e_player)
     end
   end
+
+  update_player_force()
 end
 
 function wait_for_char_creation()
