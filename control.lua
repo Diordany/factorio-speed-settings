@@ -6,10 +6,6 @@ function update_player(p_player)
   p_player.character_running_speed_modifier = settings.global["speed-settings-player-running"].value
 end
 
-function update_base_speed_tracker(old_value, new_value, mod_bonus)
-  return 
-end
-
 function update_player_force()
   -- For update, we simply add the difference between the current and previous setting
   local laboratory_bonus_delta = settings.global["speed-settings-force-lab"].value - storage["speed-settings-previous-laboratory-bonus"]
