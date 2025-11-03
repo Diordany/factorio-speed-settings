@@ -6,14 +6,29 @@ function update_player(p_player)
   p_player.character_running_speed_modifier = settings.global["speed-settings-player-running"].value
 end
 
+function update_base_speed_tracker(old_value, new_value, mod_bonus)
+  return 
+end
+
 function update_player_force()
-  game.forces["player"].laboratory_speed_modifier = settings.global["speed-settings-force-lab"].value
-  game.forces["player"].worker_robots_speed_modifier = settings.global["speed-settings-force-worker-robot"].value
+  -- For update, we simply add the difference between the current and previous setting
+  local laboratory_bonus_delta = settings.global["speed-settings-force-lab"].value - storage["speed-settings-previous-laboratory-bonus"]
+  local worker_robot_bonus_delta = settings.global["speed-settings-force-worker-robot"].value - storage["speed-settings-previous-worker-robot-bonus"]
+  game.forces["player"].laboratory_speed_modifier = game.forces["player"].laboratory_speed_modifier + laboratory_bonus_delta
+  game.forces["player"].worker_robots_speed_modifier = game.forces["player"].worker_robots_speed_modifier + worker_robot_bonus_delta
+  -- The previous settings are now updated to the current settings
+  storage["speed-settings-previous-laboratory-bonus"] = settings.global["speed-settings-force-lab"].value
+  storage["speed-settings-previous-worker-robot-bonus"] = settings.global["speed-settings-force-worker-robot"].value
 end
 
 function update_speed_settings()
+  -- If it is the first time the mod is loaded, we need to init the trackers for previous settings
+  if not storage["speed-settings-first-time"] then
+    storage["speed-settings-first-time"] = true
+    storage["speed-settings-previous-laboratory-bonus"] = 0.0
+    storage["speed-settings-previous-worker-robot-bonus"] = 0.0
+  end
   game.speed = settings.global["speed-settings-game"].value
-
   -- Update all players that have a character associated with them.
   for _, e_player in pairs(game.players) do
     if (e_player.character) then
