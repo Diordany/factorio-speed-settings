@@ -1,5 +1,9 @@
 local g_playersNoChar = {}
 
+function starts_with(p_string, p_sub)
+  return string.sub(p_string, 1, string.len(p_sub)) == p_sub
+end
+
 function update_player(p_player)
   p_player.character_crafting_speed_modifier = settings.global["speed-settings-player-crafting"].value
   p_player.character_mining_speed_modifier = settings.global["speed-settings-player-mining"].value
@@ -11,7 +15,13 @@ function update_player_force()
   game.forces["player"].worker_robots_speed_modifier = settings.global["speed-settings-force-worker-robot"].value
 end
 
-function update_speed_settings()
+function update_speed_settings(p_data)
+  if p_data then
+    if not starts_with(p_data.setting, "speed-settings-") then
+      return
+    end
+  end
+
   game.speed = settings.global["speed-settings-game"].value
 
   -- Update all players that have a character associated with them.
