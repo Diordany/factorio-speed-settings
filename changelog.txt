@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.2.1
+Date: 2025-11-20
+  Bugfixes:
+    - Fixed unintended update when settings for other mods are changed.
+  Modding:
+    - Added a .gitignore file.
+  Special Thanks to:
+    - Ozmandis for the bug report.
+---------------------------------------------------------------------------------------------------
 Version: 1.2.0
 Date: 2025-05-24
   Features:
