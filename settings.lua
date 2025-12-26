@@ -2,7 +2,7 @@ data:extend({
   {
     type = "double-setting",
     name = "speed-settings-force-lab",
-    order = "cb",
+    order = "db",
     setting_type = "runtime-global",
     default_value = 0.0,
     minimum_value = -1.0
@@ -10,7 +10,7 @@ data:extend({
   {
     type = "double-setting",
     name = "speed-settings-force-worker-robot",
-    order = "ca",
+    order = "da",
     setting_type = "runtime-global",
     default_value = 0.0,
     minimum_value = -1.0
@@ -18,7 +18,7 @@ data:extend({
   {
     type = "double-setting",
     name = "speed-settings-game",
-    order = "aa",
+    order = "ba",
     setting_type = "runtime-global",
     default_value = 1.0,
     minimum_value = 0.1
@@ -26,7 +26,7 @@ data:extend({
   {
     type = "double-setting",
     name = "speed-settings-player-crafting",
-    order = "bc",
+    order = "cc",
     setting_type = "runtime-global",
     default_value = 0.0,
     minimum_value = -1.0
@@ -34,7 +34,7 @@ data:extend({
   {
     type = "double-setting",
     name = "speed-settings-player-mining",
-    order = "bb",
+    order = "cb",
     setting_type = "runtime-global",
     default_value = 0.0,
     minimum_value = -1.0
@@ -42,9 +42,24 @@ data:extend({
   {
     type = "double-setting",
     name = "speed-settings-player-running",
-    order = "ba",
+    order = "ca",
     setting_type = "runtime-global",
     default_value = 0.0,
     minimum_value = -1.0
+  },
+  {
+    type = "bool-setting",
+    name = "speed-settings-tracking-enable",
+    order = "aa",
+    setting_type = "runtime-global",
+    default_value = true
+  },
+  {
+    type = "double-setting",
+    name = "speed-settings-tracking-interval",
+    order = "ab",
+    setting_type = "runtime-global",
+    default_value = 60.0,
+    minimum_value = 1.0
   }
 })
