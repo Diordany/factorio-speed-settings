@@ -5,19 +5,33 @@ function starts_with(p_string, p_sub)
 end
 
 function track_speed_settings()
-  if settings.global["speed-settings-game"].value ~= game.speed then
-    settings.global["speed-settings-game"] = { value = game.speed }
-    game.print("Game speed changed")
-  end
+  if not settings.global["speed-settings-tracking-override"].value then
+    if settings.global["speed-settings-game"].value ~= game.speed then
+      settings.global["speed-settings-game"] = { value = game.speed }
+    end
 
-  if settings.global["speed-settings-force-lab"].value ~= game.forces["player"].laboratory_speed_modifier then
-    settings.global["speed-settings-force-lab"] = { value = game.forces["player"].laboratory_speed_modifier }
-    game.print("Lab speed changed")
-  end
+    if settings.global["speed-settings-force-lab"].value ~= game.forces["player"].laboratory_speed_modifier then
+      settings.global["speed-settings-force-lab"] = { value = game.forces["player"].laboratory_speed_modifier }
+    end
 
-  if settings.global["speed-settings-force-worker-robot"].value ~= game.forces["player"].worker_robots_speed_modifier then
-    settings.global["speed-settings-force-worker-robot"] = { value = game.forces["player"].worker_robots_speed_modifier }
-    game.print("Bot speed changed")
+    if settings.global["speed-settings-force-worker-robot"].value ~= game.forces["player"].worker_robots_speed_modifier then
+      settings.global["speed-settings-force-worker-robot"] = {
+        value = game.forces["player"]
+            .worker_robots_speed_modifier
+      }
+    end
+  else
+    if settings.global["speed-settings-game"].value ~= game.speed then
+      game.speed = settings.global["speed-settings-game"].value
+    end
+
+    if settings.global["speed-settings-force-lab"].value ~= game.forces["player"].laboratory_speed_modifier then
+      game.forces["player"].laboratory_speed_modifier = settings.global["speed-settings-force-lab"].value
+    end
+
+    if settings.global["speed-settings-force-worker-robot"].value ~= game.forces["player"].worker_robots_speed_modifier then
+      game.forces["player"].worker_robots_speed_modifier = settings.global["speed-settings-force-worker-robot"].value
+    end
   end
 end
 
@@ -54,18 +68,9 @@ function update_speed_settings(p_data)
 end
 
 function update_tracking(p_data)
-  if p_data.setting == "speed-settings-tracking-enable" then
-    if settings.global[p_data.setting].value then
-      script.on_nth_tick(settings.global["speed-settings-tracking-interval"].value, track_speed_settings)
-    else
-      -- Unregister the handler.
-      script.on_nth_tick(nil)
-    end
-  end
-
   if p_data.setting == "speed-settings-tracking-interval" then
     script.on_nth_tick(nil)
-    script.on_nth_tick(settings.global["speed-settings-tracking-interval"].value, track_speed_settings)
+    script.on_nth_tick(settings.global[p_data.setting].value, track_speed_settings)
   end
 end
 
@@ -99,8 +104,5 @@ script.on_event(defines.events.on_player_created, function(p_data)
 end)
 
 -- Register event handlers.
-if settings.global["speed-settings-tracking-enable"].value then
-  script.on_nth_tick(settings.global["speed-settings-tracking-interval"].value, track_speed_settings)
-end
-
+script.on_nth_tick(settings.global["speed-settings-tracking-interval"].value, track_speed_settings)
 script.on_event(defines.events.on_runtime_mod_setting_changed, update_speed_settings)

@@ -48,18 +48,18 @@ data:extend({
     minimum_value = -1.0
   },
   {
-    type = "bool-setting",
-    name = "speed-settings-tracking-enable",
-    order = "aa",
-    setting_type = "runtime-global",
-    default_value = true
-  },
-  {
     type = "double-setting",
     name = "speed-settings-tracking-interval",
     order = "ab",
     setting_type = "runtime-global",
     default_value = 60.0,
     minimum_value = 1.0
+  },
+  {
+    type = "bool-setting",
+    name = "speed-settings-tracking-override",
+    order = "aa",
+    setting_type = "runtime-global",
+    default_value = false
   }
 })
