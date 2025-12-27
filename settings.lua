@@ -48,12 +48,12 @@ data:extend({
     minimum_value = -1.0
   },
   {
-    type = "double-setting",
+    type = "int-setting",
     name = "speed-settings-tracking-interval",
     order = "ab",
     setting_type = "runtime-global",
-    default_value = 60.0,
-    minimum_value = 1.0
+    default_value = 60,
+    minimum_value = 1
   },
   {
     type = "bool-setting",
