@@ -5,45 +5,46 @@ function starts_with(p_string, p_sub)
 end
 
 function track_speed_settings()
-  if not settings.global["speed-settings-tracking-override"].value then
-    if settings.global["speed-settings-game"].value ~= game.speed then
-      settings.global["speed-settings-game"] = { value = game.speed }
-    end
+  local override = settings.global["speed-settings-tracking-override"].value
 
-    if settings.global["speed-settings-force-lab"].value ~= game.forces["player"].laboratory_speed_modifier then
-      settings.global["speed-settings-force-lab"] = { value = game.forces["player"].laboratory_speed_modifier }
-    end
+  update_game(override)
+  update_player_force(override)
 
-    if settings.global["speed-settings-force-worker-robot"].value ~= game.forces["player"].worker_robots_speed_modifier then
-      settings.global["speed-settings-force-worker-robot"] = {
-        value = game.forces["player"]
-            .worker_robots_speed_modifier
-      }
-    end
-  else
-    if settings.global["speed-settings-game"].value ~= game.speed then
-      game.speed = settings.global["speed-settings-game"].value
-    end
-
-    if settings.global["speed-settings-force-lab"].value ~= game.forces["player"].laboratory_speed_modifier then
-      game.forces["player"].laboratory_speed_modifier = settings.global["speed-settings-force-lab"].value
-    end
-
-    if settings.global["speed-settings-force-worker-robot"].value ~= game.forces["player"].worker_robots_speed_modifier then
-      game.forces["player"].worker_robots_speed_modifier = settings.global["speed-settings-force-worker-robot"].value
+  for _, e_player in pairs(game.players) do
+    if (e_player.character) then
+      update_player(e_player, override)
     end
   end
 end
 
-function update_player(p_player)
-  p_player.character_crafting_speed_modifier = settings.global["speed-settings-player-crafting"].value
-  p_player.character_mining_speed_modifier = settings.global["speed-settings-player-mining"].value
-  p_player.character_running_speed_modifier = settings.global["speed-settings-player-running"].value
+function update_game(p_override)
+  if p_override then
+    game.speed = settings.global["speed-settings-game"].value
+  else
+    settings.global["speed-settings-game"] = { value = game.speed }
+  end
 end
 
-function update_player_force()
-  game.forces["player"].laboratory_speed_modifier = settings.global["speed-settings-force-lab"].value
-  game.forces["player"].worker_robots_speed_modifier = settings.global["speed-settings-force-worker-robot"].value
+function update_player(p_player, p_override)
+  if p_override then
+    p_player.character_crafting_speed_modifier = settings.global["speed-settings-player-crafting"].value
+    p_player.character_mining_speed_modifier = settings.global["speed-settings-player-mining"].value
+    p_player.character_running_speed_modifier = settings.global["speed-settings-player-running"].value
+  else
+    settings.global["speed-settings-player-crafting"] = { value = p_player.character_crafting_speed_modifier }
+    settings.global["speed-settings-player-mining"] = { value = p_player.character_mining_speed_modifier }
+    settings.global["speed-settings-player-running"] = { value = p_player.character_running_speed_modifier }
+  end
+end
+
+function update_player_force(p_override)
+  if p_override then
+    game.forces["player"].laboratory_speed_modifier = settings.global["speed-settings-force-lab"].value
+    game.forces["player"].worker_robots_speed_modifier = settings.global["speed-settings-force-worker-robot"].value
+  else
+    settings.global["speed-settings-force-lab"] = { value = game.forces["player"].laboratory_speed_modifier }
+    settings.global["speed-settings-force-worker-robot"] = { value = game.forces["player"].worker_robots_speed_modifier }
+  end
 end
 
 function update_speed_settings(p_data)
@@ -55,16 +56,16 @@ function update_speed_settings(p_data)
     end
   end
 
-  game.speed = settings.global["speed-settings-game"].value
+  update_game(true)
 
   -- Update all players that have a character associated with them.
   for _, e_player in pairs(game.players) do
     if (e_player.character) then
-      update_player(e_player)
+      update_player(e_player, true)
     end
   end
 
-  update_player_force()
+  update_player_force(true)
 end
 
 function update_tracking(p_data)
@@ -81,7 +82,7 @@ function wait_for_char_creation()
     for i, e_playerIndex in ipairs(g_playersNoChar) do
       -- Update the player if a character has been created and remove the player from the waiting list.
       if game.players[e_playerIndex].character then
-        update_player(game.players[e_playerIndex])
+        update_player(game.players[e_playerIndex], true)
         table.remove(g_playersNoChar, i)
       end
     end
