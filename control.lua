@@ -1,20 +1,23 @@
 local g_playersNoChar = {}
 
+function on_settings_changed(p_data)
+  if p_data then
+    update_tracking(p_data)
+
+    if not starts_with(p_data.setting, "speed-settings-") then
+      return
+    end
+  end
+
+  update_speed_settings(true)
+end
+
 function starts_with(p_string, p_sub)
   return string.sub(p_string, 1, string.len(p_sub)) == p_sub
 end
 
 function track_speed_settings()
-  local override = settings.global["speed-settings-tracking-override"].value
-
-  update_game(override)
-  update_player_force(override)
-
-  for _, e_player in pairs(game.players) do
-    if (e_player.character) then
-      update_player(e_player, override)
-    end
-  end
+  update_speed_settings(settings.global["speed-settings-tracking-override"].value)
 end
 
 function update_game(p_override)
@@ -47,25 +50,16 @@ function update_player_force(p_override)
   end
 end
 
-function update_speed_settings(p_data)
-  if p_data then
-    update_tracking(p_data)
-
-    if not starts_with(p_data.setting, "speed-settings-") then
-      return
-    end
-  end
-
-  update_game(true)
+function update_speed_settings(p_override)
+  update_game(p_override)
+  update_player_force(p_override)
 
   -- Update all players that have a character associated with them.
   for _, e_player in pairs(game.players) do
     if (e_player.character) then
-      update_player(e_player, true)
+      update_player(e_player, p_override)
     end
   end
-
-  update_player_force(true)
 end
 
 function update_tracking(p_data)
@@ -93,7 +87,7 @@ function wait_for_char_creation()
 end
 
 -- Update the speed settings on save creation.
-script.on_init(update_speed_settings)
+script.on_init(on_settings_changed)
 
 -- Apparently, players do not have an associated character on creation. Therefore, I decided to poll for the creation of
 -- new characters. I'm not sure if I overlooked something in the API docs, but a more elegant solution will be
@@ -106,4 +100,4 @@ end)
 
 -- Register event handlers.
 script.on_nth_tick(settings.global["speed-settings-tracking-interval"].value, track_speed_settings)
-script.on_event(defines.events.on_runtime_mod_setting_changed, update_speed_settings)
+script.on_event(defines.events.on_runtime_mod_setting_changed, on_settings_changed)
