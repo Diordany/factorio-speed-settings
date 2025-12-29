@@ -24,7 +24,9 @@ function update_game(p_override)
   if p_override then
     game.speed = settings.global["speed-settings-game"].value
   else
-    settings.global["speed-settings-game"] = { value = game.speed }
+    if settings.global["speed-settings-game"].value ~= game.speed then
+      settings.global["speed-settings-game"] = { value = game.speed }
+    end
   end
 end
 
@@ -34,9 +36,17 @@ function update_player(p_player, p_override)
     p_player.character_mining_speed_modifier = settings.global["speed-settings-player-mining"].value
     p_player.character_running_speed_modifier = settings.global["speed-settings-player-running"].value
   else
-    settings.global["speed-settings-player-crafting"] = { value = p_player.character_crafting_speed_modifier }
-    settings.global["speed-settings-player-mining"] = { value = p_player.character_mining_speed_modifier }
-    settings.global["speed-settings-player-running"] = { value = p_player.character_running_speed_modifier }
+    if settings.global["speed-settings-player-crafting"].value ~= p_player.character_crafting_speed_modifier then
+      settings.global["speed-settings-player-crafting"] = { value = p_player.character_crafting_speed_modifier }
+    end
+
+    if settings.global["speed-settings-player-mining"].value ~= p_player.character_mining_speed_modifier then
+      settings.global["speed-settings-player-mining"] = { value = p_player.character_mining_speed_modifier }
+    end
+
+    if settings.global["speed-settings-player-running"].value ~= p_player.character_running_speed_modifier then
+      settings.global["speed-settings-player-running"] = { value = p_player.character_running_speed_modifier }
+    end
   end
 end
 
@@ -45,8 +55,16 @@ function update_player_force(p_override)
     game.forces["player"].laboratory_speed_modifier = settings.global["speed-settings-force-lab"].value
     game.forces["player"].worker_robots_speed_modifier = settings.global["speed-settings-force-worker-robot"].value
   else
-    settings.global["speed-settings-force-lab"] = { value = game.forces["player"].laboratory_speed_modifier }
-    settings.global["speed-settings-force-worker-robot"] = { value = game.forces["player"].worker_robots_speed_modifier }
+    if settings.global["speed-settings-force-lab"].value ~= game.forces["player"].laboratory_speed_modifier then
+      settings.global["speed-settings-force-lab"] = { value = game.forces["player"].laboratory_speed_modifier }
+    end
+
+    if settings.global["speed-settings-force-worker-robot"].value ~= game.forces["player"].worker_robots_speed_modifier then
+      settings.global["speed-settings-force-worker-robot"] = {
+        value = game.forces["player"]
+            .worker_robots_speed_modifier
+      }
+    end
   end
 end
 
