@@ -1,3 +1,5 @@
+local m_string = require("__speed-settings__/modules/string")
+
 local g_playersNoChar = {}
 
 -- Enable the event after writing the settings.
@@ -56,7 +58,7 @@ function on_settings_changed(p_data)
   if p_data then
     update_tracking(p_data)
 
-    if not starts_with(p_data.setting, "speed-settings-") then
+    if not m_string.starts_with(p_data.setting, "speed-settings-") then
       return
     end
   end
@@ -67,10 +69,6 @@ end
 -- Disable the event before writing to settings.
 function start_write_settings()
   script.on_event(defines.events.on_runtime_mod_setting_changed, nil)
-end
-
-function starts_with(p_string, p_sub)
-  return string.sub(p_string, 1, string.len(p_sub)) == p_sub
 end
 
 function track_speed_settings()
