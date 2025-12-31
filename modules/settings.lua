@@ -1,8 +1,8 @@
-local m_settings = {}
+local m_settings = { blockEvent = false }
 
 -- Enable the event after writing the settings.
 function m_settings.finish_write_settings()
-  script.on_event(defines.events.on_runtime_mod_setting_changed, on_settings_changed)
+  m_settings.blockEvent = false
 end
 
 function m_settings.init_force_modifiers()
@@ -50,7 +50,7 @@ end
 
 -- Disable the event before writing to settings.
 function m_settings.start_write_settings()
-  script.on_event(defines.events.on_runtime_mod_setting_changed, nil)
+  m_settings.blockEvent = true
 end
 
 function m_settings.update_all(p_override)
@@ -125,7 +125,7 @@ function m_settings.update_player_force_modifiers(p_override)
   end
 end
 
-function update_tracking(p_data)
+function m_settings.update_tracking(p_data)
   if p_data.setting == "speed-settings-tracking-interval" then
     script.on_nth_tick(nil)
     script.on_nth_tick(settings.global[p_data.setting].value, track_speed_settings)

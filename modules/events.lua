@@ -28,6 +28,10 @@ function on_player_created_cb(p_data)
 end
 
 function on_settings_changed_cb(p_data)
+  if m_settings.blockEvent then
+    return
+  end
+
   if p_data then
     m_settings.update_tracking(p_data)
 
