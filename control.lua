@@ -1,5 +1,57 @@
 local g_playersNoChar = {}
 
+-- Enable the event after writing the settings.
+function finish_write_settings()
+  script.on_event(defines.events.on_runtime_mod_setting_changed, on_settings_changed)
+end
+
+function init_force_modifiers()
+  if settings.global["speed-settings-tracking-override"].value then
+    return
+  end
+
+  settings.global["speed-settings-force-lab"] = { value = game.forces["player"].laboratory_speed_modifier }
+  settings.global["speed-settings-force-worker-robot"] = { value = game.forces["player"].worker_robots_speed_modifier }
+end
+
+function init_game_modifiers()
+  if settings.global["speed-settings-tracking-override"].value then
+    return
+  end
+
+  settings.global["speed-settings-game"] = { value = game.speed }
+end
+
+function init_all_player_modifiers()
+  if settings.global["speed-settings-tracking-override"].value then
+    return
+  end
+
+  for _, e_player in pairs(game.players) do
+    if (e_player.character) then
+      init_player_modifiers(e_player)
+    end
+  end
+end
+
+function init_player_modifiers(p_player)
+  if settings.global["speed-settings-tracking-override"].value then
+    return
+  end
+
+  settings.global["speed-settings-player-crafting"] = { value = p_player.character_crafting_speed_modifier }
+  settings.global["speed-settings-player-mining"] = { value = p_player.character_mining_speed_modifier }
+  settings.global["speed-settings-player-running"] = { value = p_player.character_running_speed_modifier }
+end
+
+function init_settings()
+  -- According to the docs, on_runtime_mod_setting_changed won't be triggered during docs. It should be safe to modify
+  -- the settings here.
+  init_game_modifiers()
+  init_force_modifiers()
+  init_all_player_modifiers()
+end
+
 function on_settings_changed(p_data)
   if p_data then
     update_tracking(p_data)
@@ -10,6 +62,11 @@ function on_settings_changed(p_data)
   end
 
   update_speed_settings(true)
+end
+
+-- Disable the event before writing to settings.
+function start_write_settings()
+  script.on_event(defines.events.on_runtime_mod_setting_changed, nil)
 end
 
 function starts_with(p_string, p_sub)
@@ -24,9 +81,13 @@ function update_game(p_override)
   if p_override then
     game.speed = settings.global["speed-settings-game"].value
   else
+    start_write_settings()
+
     if settings.global["speed-settings-game"].value ~= game.speed then
       settings.global["speed-settings-game"] = { value = game.speed }
     end
+
+    finish_write_settings()
   end
 end
 
@@ -36,6 +97,8 @@ function update_player(p_player, p_override)
     p_player.character_mining_speed_modifier = settings.global["speed-settings-player-mining"].value
     p_player.character_running_speed_modifier = settings.global["speed-settings-player-running"].value
   else
+    start_write_settings()
+
     if settings.global["speed-settings-player-crafting"].value ~= p_player.character_crafting_speed_modifier then
       settings.global["speed-settings-player-crafting"] = { value = p_player.character_crafting_speed_modifier }
     end
@@ -47,6 +110,8 @@ function update_player(p_player, p_override)
     if settings.global["speed-settings-player-running"].value ~= p_player.character_running_speed_modifier then
       settings.global["speed-settings-player-running"] = { value = p_player.character_running_speed_modifier }
     end
+
+    finish_write_settings()
   end
 end
 
@@ -55,6 +120,8 @@ function update_player_force(p_override)
     game.forces["player"].laboratory_speed_modifier = settings.global["speed-settings-force-lab"].value
     game.forces["player"].worker_robots_speed_modifier = settings.global["speed-settings-force-worker-robot"].value
   else
+    start_write_settings()
+
     if settings.global["speed-settings-force-lab"].value ~= game.forces["player"].laboratory_speed_modifier then
       settings.global["speed-settings-force-lab"] = { value = game.forces["player"].laboratory_speed_modifier }
     end
@@ -65,6 +132,8 @@ function update_player_force(p_override)
             .worker_robots_speed_modifier
       }
     end
+
+    finish_write_settings()
   end
 end
 
@@ -94,7 +163,9 @@ function wait_for_char_creation()
     for i, e_playerIndex in ipairs(g_playersNoChar) do
       -- Update the player if a character has been created and remove the player from the waiting list.
       if game.players[e_playerIndex].character then
-        update_player(game.players[e_playerIndex], true)
+        start_write_settings()
+        init_player_modifiers(game.players[e_playerIndex])
+        finish_write_settings()
         table.remove(g_playersNoChar, i)
       end
     end
@@ -105,7 +176,7 @@ function wait_for_char_creation()
 end
 
 -- Update the speed settings on save creation.
-script.on_init(on_settings_changed)
+script.on_init(init_settings)
 
 -- Apparently, players do not have an associated character on creation. Therefore, I decided to poll for the creation of
 -- new characters. I'm not sure if I overlooked something in the API docs, but a more elegant solution will be
