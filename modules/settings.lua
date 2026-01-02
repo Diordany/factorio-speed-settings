@@ -1,10 +1,5 @@
 local m_settings = { blockEvent = false }
 
--- Enable the event after writing the settings.
-function m_settings.finish_write_settings()
-  m_settings.blockEvent = false
-end
-
 function m_settings.init_force_modifiers()
   if settings.global["speed-settings-tracking-override"].value then
     return
@@ -39,18 +34,9 @@ function m_settings.init_player_modifiers(p_player)
     return
   end
 
-  m_settings.start_write_settings()
-
-  settings.global["speed-settings-player-crafting"] = { value = p_player.character_crafting_speed_modifier }
-  settings.global["speed-settings-player-mining"] = { value = p_player.character_mining_speed_modifier }
-  settings.global["speed-settings-player-running"] = { value = p_player.character_running_speed_modifier }
-
-  m_settings.finish_write_settings()
-end
-
--- Disable the event before writing to settings.
-function m_settings.start_write_settings()
-  m_settings.blockEvent = true
+  m_settings.write_settings("player-crafting", p_player.character_crafting_speed_modifier)
+  m_settings.write_settings("player-mining", p_player.character_mining_speed_modifier)
+  m_settings.write_settings("player-running", p_player.character_running_speed_modifier)
 end
 
 function m_settings.update_all(p_override)
@@ -69,13 +55,9 @@ function m_settings.update_game_modifiers(p_override)
   if p_override then
     game.speed = settings.global["speed-settings-game"].value
   else
-    m_settings.start_write_settings()
-
     if settings.global["speed-settings-game"].value ~= game.speed then
-      settings.global["speed-settings-game"] = { value = game.speed }
+      m_settings.write_settings("game", game.speed)
     end
-
-    m_settings.finish_write_settings()
   end
 end
 
@@ -85,21 +67,17 @@ function m_settings.update_player_modifiers(p_player, p_override)
     p_player.character_mining_speed_modifier = settings.global["speed-settings-player-mining"].value
     p_player.character_running_speed_modifier = settings.global["speed-settings-player-running"].value
   else
-    m_settings.start_write_settings()
-
     if settings.global["speed-settings-player-crafting"].value ~= p_player.character_crafting_speed_modifier then
-      settings.global["speed-settings-player-crafting"] = { value = p_player.character_crafting_speed_modifier }
+      m_settings.write_settings("player-crafting", p_player.character_crafting_speed_modifier)
     end
 
     if settings.global["speed-settings-player-mining"].value ~= p_player.character_mining_speed_modifier then
-      settings.global["speed-settings-player-mining"] = { value = p_player.character_mining_speed_modifier }
+      m_settings.write_settings("player-mining", p_player.character_mining_speed_modifier)
     end
 
     if settings.global["speed-settings-player-running"].value ~= p_player.character_running_speed_modifier then
-      settings.global["speed-settings-player-running"] = { value = p_player.character_running_speed_modifier }
+      m_settings.write_settings("player-running", p_player.character_running_speed_modifier)
     end
-
-    m_settings.finish_write_settings()
   end
 end
 
@@ -108,20 +86,13 @@ function m_settings.update_player_force_modifiers(p_override)
     game.forces["player"].laboratory_speed_modifier = settings.global["speed-settings-force-lab"].value
     game.forces["player"].worker_robots_speed_modifier = settings.global["speed-settings-force-worker-robot"].value
   else
-    m_settings.start_write_settings()
-
     if settings.global["speed-settings-force-lab"].value ~= game.forces["player"].laboratory_speed_modifier then
-      settings.global["speed-settings-force-lab"] = { value = game.forces["player"].laboratory_speed_modifier }
+      m_settings.write_settings("force-lab", game.forces["player"].laboratory_speed_modifier)
     end
 
     if settings.global["speed-settings-force-worker-robot"].value ~= game.forces["player"].worker_robots_speed_modifier then
-      settings.global["speed-settings-force-worker-robot"] = {
-        value = game.forces["player"]
-            .worker_robots_speed_modifier
-      }
+      m_settings.write_settings("force-worker-robot", game.forces["player"].worker_robots_speed_modifier)
     end
-
-    m_settings.finish_write_settings()
   end
 end
 
@@ -130,6 +101,14 @@ function m_settings.update_tracking(p_data)
     script.on_nth_tick(nil)
     script.on_nth_tick(settings.global[p_data.setting].value, track_speed_settings)
   end
+end
+
+-- Unfortunately, I see no way of avoiding race conditions with the modding API.. So this could potentially lead to bugs
+-- in (hopefully) rare cases.. Suggestions on how to mitigate this further will be appreciated.
+function m_settings.write_settings(p_name, p_value)
+  m_settings.blockEvent = true
+  settings.global["speed-settings-" .. p_name] = { value = p_value }
+  m_settings.blockEvent = false
 end
 
 return m_settings
