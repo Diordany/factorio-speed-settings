@@ -1,7 +1,7 @@
 {
   "name": "speed-settings",
-  "version": "1.2.1",
-  "title": "Speed Settings",
+  "version": "2.0.0",
+  "title": "Speed Settings II",
   "author": "Diordany van Hemert",
   "homepage": "https://github.com/Diordany/factorio-speed-settings",
   "description": "Adds the ability to configure the following speeds in the mod settings: game speed; player running speed; player mining speed; player crafting speed; worker robot speed; research lab speed.\n\nWARNING: keep in mind that a higher game speed will be more demanding for your system!",
