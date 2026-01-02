@@ -1,4 +1,21 @@
 ---------------------------------------------------------------------------------------------------
+Version: 2.0.0
+Date: 2026-01-13
+  Major Features:
+    - Added polling to track changes to the in-game modifiers.
+  Features:
+    - Added passive mode to copy the altered modifiers to the settings.
+    - Added override mode to force the settings upon the in-game modifiers.
+  Bugfixes:
+    - Fixed research contribution to modifiers being ignored by the mod.
+  Modding:
+    - Refactored most of the code.
+  Compatibility:
+    - The polling should help with reducing conflicts with other mods.
+  Special Thanks to:
+    - Dogman15 for the bug report and testing the patches.
+    - Ozmandis for the bug report, brainstorming on ideas to fix the issue, and for reviewing and testing the patches.
+---------------------------------------------------------------------------------------------------
 Version: 1.2.1
 Date: 2025-11-20
   Bugfixes:
