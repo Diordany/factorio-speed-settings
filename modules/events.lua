@@ -66,7 +66,7 @@ function wait_for_char_creation_cb()
       end
     end
   else
-    -- Deactive this handler if the waiting list is empty.
+    -- Deactivate this handler if the waiting list is empty.
     script.on_event(defines.events.on_tick, nil)
   end
 end
