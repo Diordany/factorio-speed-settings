@@ -33,11 +33,11 @@ function on_settings_changed_cb(p_data)
   end
 
   if p_data then
-    m_settings.update_tracking(p_data)
-
     if not m_string.starts_with(p_data.setting, "speed-settings-") then
       return
     end
+
+    m_settings.update_tracking(p_data)
   end
 
   m_settings.update_all(true)
