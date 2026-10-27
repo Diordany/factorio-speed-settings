@@ -26,12 +26,12 @@ You can install this mod through the built-in modloader of Factorio under the na
 
 ```
 cd <path to factorio mods>
-git clone https://github.com/Diordany/factorio-speed-settings.git speed-settings_2.0.0
+git clone https://github.com/Diordany/factorio-speed-settings.git speed-settings_2.0.1
 ```
 
 ## Installation from ZIP
 
-Just save the **.zip** file to the mod directory of Factorio as `speed-settings_2.0.0.zip` (or leave the name as it is if downloading from the releases page).
+Just save the **.zip** file to the mod directory of Factorio as `speed-settings_2.0.1.zip` (or leave the name as it is if downloading from the releases page).
 
 # Usage
 
